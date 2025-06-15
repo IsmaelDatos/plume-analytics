@@ -1,0 +1,87 @@
+.wallet-address {
+    font-family: monospace;
+}
+
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.badge-earned {
+    background-color: #28a745;
+}
+
+.badge-not-earned {
+    background-color: #6c757d;
+}
+/* Comparison page styles */
+.wallet-stats {
+    padding: 15px;
+}
+
+.wallet-stats table {
+    margin-bottom: 20px;
+}
+
+.wallet-stats th {
+    width: 50%;
+}
+
+.badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.compare-card {
+    height: 100%;
+}
+
+.compare-header {
+    padding: 10px 15px;
+    color: white;
+}
+/* Leaderboard specific styles */
+.leaderboard-table th {
+    background-color: #343a40;
+    color: white;
+}
+
+.wallet-address {
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.wallet-address:hover {
+    text-decoration: underline;
+}
+
+/* Pagination */
+.pagination-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+/* Wallet Detail Page */
+.card-header h5 {
+    margin-bottom: 0;
+}
+
+.badge-pill {
+    font-size: 0.9em;
+}
+
+.list-group-item {
+    padding: 0.75rem 1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body .row > div {
+        margin-bottom: 1rem;
+    }
+}

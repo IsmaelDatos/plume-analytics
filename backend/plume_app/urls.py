@@ -1,0 +1,9 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('wallet/<str:wallet_address>/', views.wallet_detail, name='wallet_detail'),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('compare/', views.compare_wallets, name='compare_wallets'),  # Nueva ruta
+]

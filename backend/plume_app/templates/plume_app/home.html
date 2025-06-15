@@ -1,0 +1,56 @@
+{% extends "plume_app/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>Top Wallets</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Wallet</th>
+                        <th>XP</th>
+                        <th>TVL</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for wallet in leaderboard %}
+                    <tr>
+                        <td>{{ wallet.xpRank }}</td>
+                        <td class="wallet-address">{{ wallet.walletAddress|truncatechars:12 }}</td>
+                        <td>{{ wallet.totalXp }}</td>
+                        <td>${{ wallet.realTvlUsd|floatformat:2 }}</td>
+                        <td>
+                            <a href="{% url 'wallet_detail' wallet.walletAddress %}" class="btn btn-sm btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'leaderboard' %}" class="btn btn-primary">View Full Leaderboard</a>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+    <div class="card-header">
+        <h5>Search Wallet</h5>
+    </div>
+    <div class="card-body">
+        <form method="get" action="{% url 'wallet_detail' '0x' %}">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" 
+                       placeholder="0x..." 
+                       name="wallet_address" 
+                       pattern="^0x[a-fA-F0-9]{40}$"
+                       title="Enter a valid Ethereum address (0x...)" 
+                       required>
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+    </div>
+</div>
+{% endblock %}

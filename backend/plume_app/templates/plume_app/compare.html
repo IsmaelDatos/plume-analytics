@@ -1,0 +1,68 @@
+{% extends "plume_app/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Compare Wallets</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" action=".">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="wallet1">Wallet 1 Address</label>
+                            <input type="text" class="form-control" id="wallet1" name="wallet1" 
+                                   value="{{ wallet1 }}" placeholder="0x...">
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-center align-self-center">
+                        <h4>VS</h4>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="wallet2">Wallet 2 Address</label>
+                            <input type="text" class="form-control" id="wallet2" name="wallet2" 
+                                   value="{{ wallet2 }}" placeholder="0x...">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Compare</button>
+            </form>
+        </div>
+    </div>
+
+    {% if wallet1_data or wallet2_data %}
+    <div class="row">
+        <div class="col-md-6">
+            {% if wallet1_data %}
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Wallet 1: {{ wallet1|truncatechars:12 }}</h4>
+                    </div>
+                    <div class="card-body">
+                        {% include "plume_app/_wallet_comparison.html" with wallet=wallet1_data wallet_address=wallet1 %}
+                    </div>
+                </div>
+            {% elif wallet1_error %}
+                <div class="alert alert-danger">{{ wallet1_error }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-6">
+            {% if wallet2_data %}
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h4>Wallet 2: {{ wallet2|truncatechars:12 }}</h4>
+                    </div>
+                    <div class="card-body">
+                        {% include "plume_app/_wallet_comparison.html" with wallet=wallet2_data wallet_address=wallet2 %}
+                    </div>
+                </div>
+            {% elif wallet2_error %}
+                <div class="alert alert-danger">{{ wallet2_error }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
