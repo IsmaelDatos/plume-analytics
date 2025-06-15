@@ -19,7 +19,7 @@ def get_wallet_stats(wallet_address):
     url = f"{PLUME_API_BASE}/stats/wallet"
     params = {'walletAddress': wallet_address}
     response = requests.get(url, params=params)
-    return response.json().get('data', {})
+    return response.json()  # Devuelve el JSON completo sin modificaciones
 
 def get_wallet_badges(wallet_address):
     url = f"{PLUME_API_BASE}/badges"

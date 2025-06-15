@@ -34,23 +34,23 @@
     </div>
     <div class="col-md-4">
         <div class="card">
-    <div class="card-header">
-        <h5>Search Wallet</h5>
-    </div>
-    <div class="card-body">
-        <form method="get" action="{% url 'wallet_detail' '0x' %}">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" 
-                       placeholder="0x..." 
-                       name="wallet_address" 
-                       pattern="^0x[a-fA-F0-9]{40}$"
-                       title="Enter a valid Ethereum address (0x...)" 
-                       required>
-                <button class="btn btn-primary" type="submit">Search</button>
+            <div class="card-header">
+                <h5>Search Wallet</h5>
             </div>
-        </form>
-    </div>
-</div>
+            <div class="card-body">
+                <form method="get" action="{% url 'wallet_search' %}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" 
+                               placeholder="0x..." 
+                               name="wallet_address" 
+                               pattern="^0x[a-fA-F0-9]{40}$"
+                               title="Enter a valid Ethereum address (0x...)" 
+                               required>
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
