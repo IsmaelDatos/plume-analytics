@@ -9,19 +9,6 @@
     {% else %}
     <h2 class="my-4">Wallet Details: {{ wallet_address|truncatechars:16 }}</h2>
     
-    <!-- Debug: Mostrar datos crudos (puedes eliminar esto después) -->
-    <details class="mb-4">
-        <summary class="btn btn-sm btn-info">Ver datos crudos (DEBUG)</summary>
-        <div class="card mt-2">
-            <div class="card-body">
-                <h6>Stats:</h6>
-                <pre>{{ stats|pprint }}</pre>
-                <h6>Season One:</h6>
-                <pre>{{ season_one|pprint }}</pre>
-            </div>
-        </div>
-    </details>
-    
     <div class="row">
         <!-- Primera columna - Stats principales -->
         <div class="col-md-6">
