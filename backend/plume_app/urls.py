@@ -7,4 +7,5 @@ urlpatterns = [
     path('wallet/<str:wallet_address>/', views.wallet_detail, name='wallet_detail'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('compare/', views.compare_wallets, name='compare_wallets'),
+    path('battle-groups/', views.battle_groups, name='battle_groups'),
 ]

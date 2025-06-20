@@ -1,0 +1,65 @@
+{% extends "plume_app/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Battle Groups</h2>
+    
+    {% if messages %}
+    <div class="row">
+        <div class="col-12">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if battle_groups %}
+    <div class="row">
+        {% for group_num, wallets in battle_groups.items %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white d-flex justify-content-between">
+                    <h4>Battle Group #{{ group_num }}</h4>
+                    <span class="badge bg-light text-dark">{{ wallets|length }} wallets</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive battle-group-table">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Wallet</th>
+                                    <th>XP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for wallet in wallets|dictsort:"xpRank" %}
+                                <tr>
+                                    <td>{{ wallet.xpRank }}</td>
+                                    <td class="wallet-address">
+                                        <a href="{% url 'wallet_detail' wallet.walletAddress %}">
+                                            {{ wallet.walletAddress|truncatechars:12 }}
+                                        </a>
+                                    </td>
+                                    <td>{{ wallet.totalXp }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        No battle groups data available at this time.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

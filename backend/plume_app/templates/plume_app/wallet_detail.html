@@ -43,7 +43,7 @@
                     <p><strong>Staking Streak:</strong> {{ stats.plumeStakingStreak|default:"0" }} days</p>
                     <p><strong>Staking Points:</strong> {{ stats.plumeStakingPointsEarned|default:"0" }}</p>
                     <p><strong>Bonus Points:</strong> {{ stats.plumeStakingBonusPointsEarned|default:"0" }}</p>
-                    <p><strong>Airdrop S1:</strong> {{ season_one.total_airdrop|default:"0" }} PLUME</p>
+                    <p><strong>Airdrop S1:</strong> {{ season_one.total_airdrop|default:"N/A" }} PLUME</p>
                 </div>
             </div>
         </div>
@@ -89,6 +89,7 @@
     </div>
 
     <!-- Season One Allocation -->
+    {% if has_season_data %}
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
@@ -99,26 +100,26 @@
                     <div class="row">
                         <div class="col-md-4">
                             <p><strong>Base Allocation:</strong> 
-                                {{ season_one.base_allocation|default:"0" }} PLUME
+                                {{ season_one.base_allocation|default:"N/A" }} PLUME
                             </p>
                         </div>
                         <div class="col-md-4">
                             <p><strong>Boost:</strong> 
-                                {{ season_one.boost|default:"0" }} PLUME
+                                {{ season_one.boost|default:"N/A" }} PLUME
                             </p>
                         </div>
                         <div class="col-md-4">
                             <p><strong>Total Airdrop:</strong> 
-                                {{ season_one.total_airdrop|default:"0" }} PLUME
+                                {{ season_one.total_airdrop|default:"N/A" }} PLUME
                             </p>
                         </div>
                     </div>
-                    {% if season_one.quests_completed %}
+                    {% if season_one.quests_completed is not None %}
                     <p class="mt-2"><strong>Quests Completed:</strong> 
                         {{ season_one.quests_completed }}/8
                     </p>
                     {% endif %}
-                    {% if season_one.initial_claim %}
+                    {% if season_one.initial_claim is not None %}
                     <p class="mt-2"><strong>Initial Claim:</strong> 
                         {{ season_one.initial_claim }} PLUME
                     </p>
@@ -127,6 +128,11 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="alert alert-warning mt-4">
+        <i class="bi bi-exclamation-triangle"></i> Season 1 allocation data is not available for this wallet.
+    </div>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

@@ -6,7 +6,8 @@ from .services import (
     get_wallet_badges,
     get_social_connections,
     get_daily_spin_data,
-    get_all_apps
+    get_all_apps,
+    get_battle_groups
 )
 import requests
 
@@ -22,29 +23,36 @@ def home(request):
 
 def wallet_detail(request, wallet_address):
     try:
-        response = get_wallet_stats(wallet_address)
+        # Obtener datos de la API
+        api_response = get_wallet_stats(wallet_address)
+        data = api_response.get('data', {})
+        stats = data.get('stats', {})
         
-        # Acceso correcto a los datos anidados
-        stats = response.get('data', {}).get('stats', {})
-        season_one = response.get('data', {}).get('seasonOneAllocation', {})
-        
+        # Manejo robusto de seasonOneAllocation
+        season_one = data.get('seasonOneAllocation')
+        airdrop_claim = season_one.get('airdropClaim', {}) if season_one else {}
+
+        # Construir contexto
         context = {
             'stats': stats,
             'wallet_badges': get_wallet_badges(wallet_address),
             'social_connections': get_social_connections(wallet_address),
             'daily_spins': get_daily_spin_data(wallet_address),
             'wallet_address': wallet_address,
+            'has_season_data': season_one is not None,  # Flag para la plantilla
             'season_one': {
-                'base_allocation': season_one.get('calculatedAllocation', 0),
-                'boost': season_one.get('calculatedBoost', 0),
-                'total_airdrop': season_one.get('calculatedTotal', 0),
-                'quests_completed': season_one.get('questBonusActivatedCount', 0),
-                'initial_claim': season_one.get('airdropClaim', {}).get('initialClaimAmountTokens', 0)
+                'base_allocation': season_one.get('calculatedAllocation') if season_one else None,
+                'boost': season_one.get('calculatedBoost') if season_one else None,
+                'total_airdrop': season_one.get('calculatedTotal') if season_one else None,
+                'quests_completed': airdrop_claim.get('questBonusActivatedCount'),
+                'initial_claim': airdrop_claim.get('initialClaimAmountTokens')
             }
         }
         return render(request, 'plume_app/wallet_detail.html', context)
+
     except Exception as e:
-        messages.error(request, f"Error loading wallet: {str(e)}")
+        print(f"Error loading wallet {wallet_address}: {str(e)}")
+        messages.error(request, "Could not load wallet data. Please try again later.")
         return render(request, 'plume_app/wallet_detail.html', {
             'wallet_address': wallet_address,
             'error': True
@@ -105,9 +113,23 @@ def compare_wallets(request):
     
     return render(request, 'plume_app/compare.html', context)
 
-    search_address = request.GET.get('wallet_address')
-    if search_address:
-        return redirect('wallet_detail', wallet_address=search_address)
-    else:
-        messages.error(request, "Please enter a valid wallet address")
+def battle_groups(request):
+    try:
+        messages.info(request, "Loading battle groups data... This may take a moment.")
+        battle_groups_data = get_battle_groups(max_requests=1000) 
+        if not battle_groups_data:
+            messages.warning(request, "No battle groups data could be loaded. Please try again later.")
+            return redirect('home')
+        sorted_groups = sorted(
+            battle_groups_data.items(),
+            key=lambda x: x[0] if x[0] is not None else float('inf')
+        )
+        storage = messages.get_messages(request)
+        for _ in storage:
+            pass  
+        return render(request, 'plume_app/battle_groups.html', {
+            'battle_groups': dict(sorted_groups)
+        })
+    except Exception as e:
+        messages.error(request, f"Error loading battle groups: {str(e)}")
         return redirect('home')
