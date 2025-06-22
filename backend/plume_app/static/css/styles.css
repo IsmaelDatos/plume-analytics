@@ -1,185 +1,107 @@
-:root {
-    --plume-red: #FF3D00;
-    --plume-black: #111111;
-    --plume-offwhite: #F9F9F9;
-    --plume-sky-dark: #207B9B;
-    --plume-sky-medium: #29C2F7;
-    --plume-sky-light: #9DE6FC;
-    --plume-sky-verylight: #D6F6FC;
-}
+/* Import League Spartan font */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap');
 
-body {
-    background-color: var(--plume-offwhite);
-    color: var(--plume-black);
-}
-
+/* Navbar styles */
 .navbar {
-    background-color: var(--plume-black) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand, .nav-link {
+.navbar-brand, .nav-link, .dropdown-toggle {
+    font-family: 'League Spartan', sans-serif !important;
+    font-weight: bold !important;
     color: white !important;
 }
 
-.navbar-brand:hover, .nav-link:hover {
-    color: var(--plume-sky-light) !important;
+/* Hover effects for nav items */
+.nav-item:not(.dropdown) .nav-link:hover {
+    background-color: #FFC38B;
+    border-radius: 45px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background-color: var(--plume-red);
-    border-color: var(--plume-red);
+/* Dropdown styles */
+.dropdown:hover .dropdown-toggle {
+    background-color: #FFC38B;
+    border-radius: 45px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
-    background-color: #e03500;
-    border-color: #e03500;
+.dropdown-menu {
+    background-color: #FF3200 !important;
+    border: none !important;
+    border-radius: 0 0 45px 45px !important;
 }
 
-.btn-outline-primary {
-    color: var(--plume-red);
-    border-color: var(--plume-red);
+.dropdown-item {
+    color: white !important;
+    font-family: 'League Spartan', sans-serif !important;
+    font-weight: 700 !important;
+    padding: 0.5rem 1.5rem !important;
 }
 
-.btn-outline-primary:hover {
-    background-color: var(--plume-red);
-    color: white;
+.dropdown-item:hover {
+    background-color: #FF8130 !important;
+    color: white !important;
 }
 
-.card-header.bg-primary {
-    background-color: var(--plume-sky-dark) !important;
+.navbar {
+    background-color: #FF3200 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 2cm;
 }
 
-.card-header.bg-secondary {
-    background-color: var(--plume-sky-medium) !important;
+.navbar-brand,
+.navbar-nav .nav-link,
+.navbar-nav .dropdown-toggle {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700 !important;
+    color: white !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.card-header.bg-success {
-    background-color: var(--plume-sky-dark) !important;
+/* DROPDOWN - Estilos reforzados */
+.navbar .dropdown-menu {
+    background-color: #FF3200 !important;
+    border: none !important;
+    border-radius: 0 0 45px 45px !important;
+    margin-top: 0 !important;
 }
 
-.card-header.bg-info {
-    background-color: var(--plume-sky-medium) !important;
+.navbar .dropdown-item {
+    color: white !important;
+    font-family: 'League Spartan', sans-serif !important;
+    font-weight: 700 !important;
+    padding: 0.5rem 1.5rem !important;
+    -webkit-text-fill-color: white !important; /* Forza color en Safari */
 }
 
-.card-header.bg-warning {
-    background-color: var(--plume-sky-light) !important;
-    color: var(--plume-black) !important;
+.navbar .dropdown-item:hover,
+.navbar .dropdown-item:focus {
+    background-color: #FF8130 !important;
+    color: white !important;
 }
 
-.card-header.bg-dark {
-    background-color: var(--plume-black) !important;
+/* Hover states */
+.navbar-nav .nav-item:not(.dropdown):hover .nav-link {
+    background-color: #FFC38B;
+    border-radius: 45px;
 }
 
-/* Badges */
-.badge.bg-primary {
-    background-color: var(--plume-sky-medium) !important;
+.navbar-nav .dropdown:hover .nav-link {
+    background-color: #FFC38B;
+    border-radius: 45px;
 }
 
-.badge-earned {
-    background-color: var(--plume-sky-dark);
-}
-
-.badge-not-earned {
-    background-color: #6c757d;
-}
-
-/* Tables */
-.table thead th {
-    background-color: var(--plume-black);
-    color: white;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(214, 246, 252, 0.3);
-}
-
-/* Alerts */
-.alert {
-    border-left: 4px solid var(--plume-red);
-}
-
-/* Wallet address styling */
-.wallet-address {
-    font-family: monospace;
-    color: var(--plume-sky-dark);
-}
-
-.wallet-address:hover {
-    color: var(--plume-sky-medium);
-    text-decoration: underline;
-}
-
-/* Comparison page specific */
-.compare-header.bg-primary {
-    background-color: var(--plume-sky-dark) !important;
-}
-
-.compare-header.bg-secondary {
-    background-color: var(--plume-sky-medium) !important;
-}
-
-@media (max-width: 768px) {
-    .card-body .row > div {
-        margin-bottom: 1rem;
+/* Mobile fixes */
+@media (max-width: 992px) {
+    .navbar {
+        padding: 0.5rem 1rem !important;
     }
-}
-
-.battle-group-card {
-    height: 100%;
-    transition: transform 0.2s;
-}
-
-.battle-group-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.battle-group-table {
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.battle-group-table thead th {
-    position: sticky;
-    top: 0;
-    background-color: var(--plume-sky-dark);
-    color: white;
-    z-index: 10;
-}
-
-.spinner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.spinner-overlay p {
-    margin-top: 15px;
-    font-size: 1.2rem;
-    color: var(--plume-sky-dark);
-}
-
-.battle-group-table {
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.battle-group-table thead th {
-    position: sticky;
-    top: 0;
-    background-color: var(--plume-sky-dark);
-    color: white;
-    z-index: 10;
-}
-
-.card.h-100 {
-    min-height: 300px;
+    
+    .dropdown-menu {
+        position: static !important;
+    }
 }
