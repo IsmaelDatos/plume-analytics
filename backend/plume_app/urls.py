@@ -8,4 +8,5 @@ urlpatterns = [
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('compare/', views.compare_wallets, name='compare_wallets'),
     path('battle-groups/', views.battle_groups, name='battle_groups'),
+    path('analytics/', views.global_analytics, name='global_analytics'),
 ]

@@ -1,6 +1,7 @@
 import requests
 from django.conf import settings
-import time  
+import time
+from .models import PlumeData
 
 PLUME_API_BASE = "https://portal-api.plume.org/api/v1"
 
@@ -93,3 +94,35 @@ def get_battle_groups(max_requests=1000):
                 battle_groups[bg] = []
             battle_groups[bg].append(wallet)
     return battle_groups
+
+def fetch_and_save_plume_data():
+    """Función simple para obtener datos y guardarlos"""
+    url = "https://portal-api.plume.org/api/v1/stats/leaderboard"
+    params = {
+        'offset': 0,
+        'count': 100,  # Ajusta según necesites
+        'walletAddress': 'undefined',
+        'overrideDay1Override': 'false',
+        'preview': 'false'
+    }
+    
+    try:
+        response = requests.get(url, params=params, timeout=30)
+        response.raise_for_status()
+        data = response.json().get('data', {}).get('leaderboard', [])
+        
+        total_xp = sum(wallet.get('totalXp', 0) for wallet in data)
+        total_wallets = len(data)
+        plume_per_xp = 152_000_000 / total_xp if total_xp > 0 else 0
+        
+        # Guardar en la base de datos
+        PlumeData.objects.create(
+            total_xp=total_xp,
+            total_wallets=total_wallets,
+            plume_per_xp=plume_per_xp
+        )
+        
+        return True
+    except Exception as e:
+        print(f"Error al obtener datos: {e}")
+        return False

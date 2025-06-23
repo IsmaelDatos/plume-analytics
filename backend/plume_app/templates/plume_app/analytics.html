@@ -1,0 +1,99 @@
+{% extends "plume_app/base.html" %}
+{% load static %}
+{% load static humanize %}
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css" rel="stylesheet">
+<link href="{% static 'plume_app/css/analytics.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Global Analytics</h2>
+        <div>
+            <a href="?refresh=true" class="btn btn-primary">
+                <i class="bi bi-arrow-clockwise"></i> Refresh Data
+            </a>
+            <span class="ms-2 text-muted">Last updated: {{ last_updated|date:"Y-m-d H:i" }}</span>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total XP</h5>
+                    <h2 class="text-primary">{{ data.summary.total_xp|intcomma }}</h2>
+                    <p class="text-muted">Across all wallets</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Wallets</h5>
+                    <h2 class="text-primary">{{ data.summary.total_wallets|intcomma }}</h2>
+                    <p class="text-muted">In leaderboard</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Avg XP/Wallet</h5>
+                    <h2 class="text-primary">{{ data.summary.average_xp|floatformat:0|intcomma }}</h2>
+                    <p class="text-muted">PLUME per XP: {{ data.summary.plume_per_xp|floatformat:10 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historical Chart -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Historical Total XP</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="historicalChart" height="150"></canvas>
+        </div>
+    </div>
+
+    <!-- Tiers Distribution -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>XP Tiers Distribution</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for tier in data.tiers %}
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 tier-card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ tier.name }}</h6>
+                            <p class="mb-1">
+                                {{ tier.wallet_count|intcomma }} wallets 
+                                ({{ tier.percentage|floatformat:1 }}%)
+                            </p>
+                            <div class="progress mb-2">
+                                <div class="progress-bar" 
+                                     style="width: {{ tier.percentage }}%">
+                                </div>
+                            </div>
+                            <p class="mb-1"><strong>Total XP:</strong> {{ tier.total_xp|intcomma }}</p>
+                            <p class="mb-1"><strong>Avg XP:</strong> {{ tier.avg_xp|floatformat:0|intcomma }}</p>
+                            <p class="mb-0"><strong>PLUME Allocation:</strong> {{ tier.total_plume|floatformat:0|intcomma }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script src="{% static 'plume_app/js/analytics.js' %}"></script>
+{% endblock %}

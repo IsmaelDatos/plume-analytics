@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from .analytics_service import PlumeAnalyticsService
+from django.utils import timezone
 from .services import (
     get_leaderboard,
     get_wallet_stats,
@@ -133,3 +135,20 @@ def battle_groups(request):
     except Exception as e:
         messages.error(request, f"Error loading battle groups: {str(e)}")
         return redirect('home')
+    
+def global_analytics(request):
+    analyzer = PlumeAnalyticsService()
+    
+    # Opción para forzar actualización
+    refresh = request.GET.get('refresh', 'false').lower() == 'true'
+    
+    if refresh:
+        data = analyzer.analyze_leaderboard()
+    else:
+        # Mostrar los últimos datos disponibles
+        data = analyzer.get_analysis_results()
+    
+    return render(request, 'plume_app/analytics.html', {
+        'data': data,
+        'last_updated': timezone.now()
+    })

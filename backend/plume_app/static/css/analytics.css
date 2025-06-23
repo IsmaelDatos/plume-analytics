@@ -1,0 +1,15 @@
+.tier-card {
+    border-left: 4px solid #FF3200;
+    transition: all 0.3s ease;
+}
+.tier-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.progress {
+    height: 20px;
+    border-radius: 10px;
+}
+.progress-bar {
+    background-color: #FF3200;
+}
